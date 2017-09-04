@@ -210,17 +210,6 @@ func (p *ParseContext) Next() *Token {
 			p.args = append([]string{"-" + arg[size+1:]}, p.args...)
 		}
 		return &Token{p.argi, TokenShort, short}
-	} else if strings.HasPrefix(arg, "@") {
-		expanded, err := ExpandArgsFromFile(arg[1:])
-		if err != nil {
-			return &Token{p.argi, TokenError, err.Error()}
-		}
-		if len(p.args) == 0 {
-			p.args = expanded
-		} else {
-			p.args = append(expanded, p.args...)
-		}
-		return p.Next()
 	}
 
 	return &Token{p.argi, TokenArg, arg}
